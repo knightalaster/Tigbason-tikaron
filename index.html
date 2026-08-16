@@ -1,0 +1,6749 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+>
+
+<title>Tigbason Tikaron</title>
+
+
+<style>
+
+/* =====================================================
+   BASIC
+===================================================== */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html,
+body{
+
+    width:100%;
+    height:100%;
+
+    overflow:hidden;
+
+    background:#111;
+
+    font-family:Arial, sans-serif;
+
+    touch-action:none;
+
+}
+
+
+/* =====================================================
+   GAME CANVAS
+===================================================== */
+
+#gameCanvas{
+
+    position:fixed;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    display:block;
+
+    background:#315b35;
+
+}
+
+
+/* =====================================================
+   GAME UI
+===================================================== */
+
+#gameUI{
+
+    position:fixed;
+
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:10;
+
+}
+
+
+/* =====================================================
+   ARENA TEXT
+===================================================== */
+
+#arenaText{
+
+    position:absolute;
+
+    top:15px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    color:white;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    letter-spacing:2px;
+
+    text-shadow:
+        0 2px 4px #000;
+
+}
+
+
+/* =====================================================
+   HEALTH
+===================================================== */
+
+#healthContainer{
+
+    position:absolute;
+
+    top:15px;
+
+    left:15px;
+
+    width:180px;
+
+    height:18px;
+
+    background:#222;
+
+    border:2px solid white;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+}
+
+
+#healthBar{
+
+    width:100%;
+
+    height:100%;
+
+    background:#49c96b;
+
+    transition:
+        width .15s linear;
+
+}
+
+
+/* =====================================================
+   AMMO
+===================================================== */
+
+#ammoPanel{
+
+    position:absolute;
+
+    top:42px;
+
+    left:15px;
+
+    color:white;
+
+    font-size:14px;
+
+    text-shadow:
+        0 2px 4px #000;
+
+}
+
+
+#reloadText{
+
+    margin-left:8px;
+
+    color:#ffd85a;
+
+}
+
+
+/* =====================================================
+   MUSIC BUTTON
+===================================================== */
+
+#musicButton{
+
+    position:absolute;
+
+    top:15px;
+
+    right:15px;
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:50%;
+
+    border:2px solid rgba(255,255,255,.5);
+
+    background:rgba(0,0,0,.5);
+
+    color:white;
+
+    font-size:18px;
+
+    pointer-events:auto;
+
+    touch-action:none;
+
+}
+
+
+/* =====================================================
+   JOYSTICK
+===================================================== */
+
+#joystick{
+
+    position:fixed;
+
+    left:22px;
+
+    bottom:22px;
+
+    width:140px;
+
+    height:140px;
+
+    border-radius:50%;
+
+    background:
+        rgba(20,20,20,.42);
+
+    border:
+        3px solid
+        rgba(255,255,255,.22);
+
+    z-index:30;
+
+    pointer-events:auto;
+
+    touch-action:none;
+
+}
+
+
+#joystickKnob{
+
+    position:absolute;
+
+    width:64px;
+
+    height:64px;
+
+    left:50%;
+
+    top:50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,.32);
+
+    border:
+        2px solid
+        rgba(255,255,255,.45);
+
+    pointer-events:none;
+
+}
+
+
+/* =====================================================
+   SHOOT BUTTON
+===================================================== */
+
+#shootButton{
+
+    position:fixed;
+
+    right:28px;
+
+    bottom:35px;
+
+    width:90px;
+
+    height:90px;
+
+    border-radius:50%;
+
+    border:
+        3px solid
+        rgba(255,255,255,.35);
+
+    background:
+        rgba(190,55,55,.55);
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:bold;
+
+    z-index:30;
+
+    pointer-events:auto;
+
+    touch-action:none;
+
+    user-select:none;
+
+    -webkit-user-select:none;
+
+}
+
+
+#shootButton:active{
+
+    transform:scale(.93);
+
+    background:
+        rgba(220,70,70,.75);
+
+}
+
+
+/* =====================================================
+   START SCREEN
+===================================================== */
+
+#startScreen{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:100;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:
+        linear-gradient(
+            180deg,
+            #182b1c,
+            #0d140f
+        );
+
+    color:white;
+
+}
+
+
+#startScreen h1{
+
+    font-size:
+        clamp(
+            34px,
+            9vw,
+            70px
+        );
+
+    letter-spacing:3px;
+
+    text-align:center;
+
+    margin-bottom:10px;
+
+}
+
+
+#startScreen p{
+
+    opacity:.7;
+
+    margin-bottom:30px;
+
+}
+
+
+#startButton{
+
+    padding:
+        15px 40px;
+
+    border:0;
+
+    border-radius:12px;
+
+    background:#e5a83d;
+
+    color:#171717;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+}
+
+
+/* =====================================================
+   DIALOGUE
+===================================================== */
+
+#dialogueScene{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:80;
+
+    display:none;
+
+    flex-direction:column;
+
+    justify-content:flex-end;
+
+    align-items:center;
+
+    pointer-events:auto;
+
+}
+
+
+/* =====================================================
+   CHARACTER IMAGE
+===================================================== */
+
+#characterStage{
+
+    position:absolute;
+
+    left:50%;
+
+    bottom:155px;
+
+    transform:
+        translateX(-50%);
+
+    width:min(
+        80vw,
+        500px
+    );
+
+    height:min(
+        60vh,
+        500px
+    );
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:flex-end;
+
+}
+
+
+#characterImage{
+
+    max-width:100%;
+
+    max-height:100%;
+
+    object-fit:contain;
+
+    filter:
+        drop-shadow(
+            0 8px 8px
+            rgba(0,0,0,.35)
+        );
+
+}
+
+
+/* =====================================================
+   DIALOGUE BOX
+===================================================== */
+
+#dialogueBox{
+
+    position:relative;
+
+    width:100%;
+
+    min-height:125px;
+
+    padding:
+        18px 20px 22px;
+
+    background:
+        rgba(10,10,10,.94);
+
+    border-top:
+        3px solid
+        rgba(255,255,255,.2);
+
+}
+
+
+#speaker{
+
+    color:#ffd76a;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    margin-bottom:8px;
+
+}
+
+
+#dialogueText{
+
+    color:white;
+
+    font-size:16px;
+
+    line-height:1.45;
+
+}
+
+
+#dialogueHint{
+
+    position:absolute;
+
+    right:15px;
+
+    bottom:8px;
+
+    color:
+        rgba(255,255,255,.5);
+
+    font-size:11px;
+
+}
+
+
+/* =====================================================
+   CUTSCENE
+===================================================== */
+
+#phase2Cutscene{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:120;
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:#000;
+
+}
+
+
+#phase2Video{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:contain;
+
+}
+
+
+/* =====================================================
+   GAME OVER
+===================================================== */
+
+#gameOver{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:150;
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-direction:column;
+
+    background:
+        rgba(0,0,0,.88);
+
+    color:white;
+
+}
+
+
+#gameOver h2{
+
+    font-size:40px;
+
+    margin-bottom:20px;
+
+}
+
+
+#restartButton{
+
+    padding:
+        13px 30px;
+
+    border:0;
+
+    border-radius:10px;
+
+    background:#e5a83d;
+
+    font-weight:bold;
+
+}
+
+
+/* =====================================================
+   ENDING
+===================================================== */
+
+#ending{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:140;
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-direction:column;
+
+    background:
+        #111;
+
+    color:white;
+
+    text-align:center;
+
+}
+
+
+#ending h1{
+
+    font-size:
+        clamp(
+            32px,
+            9vw,
+            65px
+        );
+
+    margin-bottom:20px;
+
+}
+
+
+#ending p{
+
+    opacity:.7;
+
+    margin-bottom:25px;
+
+}
+
+
+#endingRestart{
+
+    padding:
+        13px 30px;
+
+    border:0;
+
+    border-radius:10px;
+
+    background:#e5a83d;
+
+    font-weight:bold;
+
+}
+
+
+/* =====================================================
+   DAMAGE FLASH
+===================================================== */
+
+.damageFlash{
+
+    animation:
+        damageFlash .1s
+        linear;
+
+}
+
+
+@keyframes damageFlash{
+
+    0%{
+        filter:
+            brightness(2);
+    }
+
+    100%{
+        filter:
+            brightness(1);
+    }
+
+}
+
+
+/* =====================================================
+   SMALL PHONES
+===================================================== */
+
+@media(
+    max-width:500px
+){
+
+    #joystick{
+
+        width:125px;
+
+        height:125px;
+
+        left:16px;
+
+        bottom:18px;
+
+    }
+
+
+    #joystickKnob{
+
+        width:58px;
+
+        height:58px;
+
+    }
+
+
+    #shootButton{
+
+        width:82px;
+
+        height:82px;
+
+        right:20px;
+
+        bottom:28px;
+
+    }
+
+
+    #dialogueBox{
+
+        min-height:135px;
+
+    }
+
+
+    #characterStage{
+
+        bottom:165px;
+
+        height:52vh;
+
+    }
+
+}
+
+
+/* =====================================================
+   LANDSCAPE
+===================================================== */
+
+@media(
+    orientation:landscape
+){
+
+    #characterStage{
+
+        bottom:130px;
+
+        height:62vh;
+
+    }
+
+
+    #dialogueBox{
+
+        min-height:105px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     CANVAS
+===================================================== -->
+
+<canvas id="gameCanvas"></canvas>
+
+
+<!-- =====================================================
+     GAME UI
+===================================================== -->
+
+<div id="gameUI">
+
+    <div id="arenaText">
+        ARENA 1
+    </div>
+
+
+    <div id="healthContainer">
+
+        <div id="healthBar"></div>
+
+    </div>
+
+
+    <div id="ammoPanel">
+
+        <span id="ammoText">
+            5 / 5
+        </span>
+
+        <span id="reloadText">
+            READY
+        </span>
+
+    </div>
+
+
+    <button id="musicButton">
+        ♫
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     JOYSTICK
+===================================================== -->
+
+<div id="joystick">
+
+    <div id="joystickKnob"></div>
+
+</div>
+
+
+<!-- =====================================================
+     SHOOT
+===================================================== -->
+
+<button id="shootButton">
+    SHOOT
+</button>
+
+
+<!-- =====================================================
+     START SCREEN
+===================================================== -->
+
+<div id="startScreen">
+
+    <h1>
+        TIGBASON<br>
+        TIKARON
+    </h1>
+
+    <p>
+        A very serious turon mission.
+    </p>
+
+    <button id="startButton">
+        START GAME
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     DIALOGUE
+===================================================== -->
+
+<div id="dialogueScene">
+
+    <div id="characterStage">
+
+        <img
+            id="characterImage"
+            src=""
+            alt=""
+        >
+
+    </div>
+
+
+    <div id="dialogueBox">
+
+        <div id="speaker">
+            Sam
+        </div>
+
+
+        <div id="dialogueText">
+            ...
+        </div>
+
+
+        <div id="dialogueHint">
+            TAP TO CONTINUE
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     PHASE 2 CUTSCENE
+===================================================== -->
+
+<div id="phase2Cutscene">
+
+    <video
+        id="phase2Video"
+        playsinline
+        preload="auto"
+    >
+
+        <source
+            src="phase2.mp4"
+            type="video/mp4"
+        >
+
+    </video>
+
+</div>
+
+
+<!-- =====================================================
+     GAME OVER
+===================================================== -->
+
+<div id="gameOver">
+
+    <h2>
+        YOU LOST
+    </h2>
+
+    <button id="restartButton">
+        TRY AGAIN
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     ENDING
+===================================================== -->
+
+<div id="ending">
+
+    <h1>
+        TIGBASON TIKARON
+    </h1>
+
+    <p>
+        To be continued...
+    </p>
+
+    <button id="endingRestart">
+        PLAY AGAIN
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     AUDIO
+===================================================== -->
+
+<audio
+    id="normalMusic"
+    src="normal.mp3"
+    loop
+></audio>
+
+
+<audio
+    id="bossMusic"
+    src="boss.mp3"
+    loop
+></audio>
+
+
+<audio
+    id="phase2Music"
+    src="phase2.mp3"
+    loop
+></audio>
+
+
+<audio
+    id="brentMusic"
+    src="brent.mp3"
+    loop
+></audio>
+
+
+<!-- =====================================================
+     PART 2 GOES HERE
+===================================================== -->
+    <script>
+
+/* =====================================================
+   CANVAS
+===================================================== */
+
+const canvas =
+    document.getElementById("gameCanvas");
+
+const ctx =
+    canvas.getContext("2d");
+
+
+/* =====================================================
+   UI ELEMENTS
+===================================================== */
+
+const startScreen =
+    document.getElementById("startScreen");
+
+const startButton =
+    document.getElementById("startButton");
+
+const arenaText =
+    document.getElementById("arenaText");
+
+const healthBar =
+    document.getElementById("healthBar");
+
+const ammoText =
+    document.getElementById("ammoText");
+
+const reloadText =
+    document.getElementById("reloadText");
+
+const musicButton =
+    document.getElementById("musicButton");
+
+const dialogueScene =
+    document.getElementById("dialogueScene");
+
+const characterImage =
+    document.getElementById("characterImage");
+
+const speaker =
+    document.getElementById("speaker");
+
+const dialogueText =
+    document.getElementById("dialogueText");
+
+const phase2Cutscene =
+    document.getElementById("phase2Cutscene");
+
+const phase2Video =
+    document.getElementById("phase2Video");
+
+const gameOver =
+    document.getElementById("gameOver");
+
+const restartButton =
+    document.getElementById("restartButton");
+
+const ending =
+    document.getElementById("ending");
+
+const endingRestart =
+    document.getElementById("endingRestart");
+
+const joystick =
+    document.getElementById("joystick");
+
+const joystickKnob =
+    document.getElementById("joystickKnob");
+
+const shootButton =
+    document.getElementById("shootButton");
+
+
+/* =====================================================
+   AUDIO
+===================================================== */
+
+const normalMusic =
+    document.getElementById("normalMusic");
+
+const bossMusic =
+    document.getElementById("bossMusic");
+
+const phase2Music =
+    document.getElementById("phase2Music");
+
+const brentMusic =
+    document.getElementById("brentMusic");
+
+
+let musicEnabled =
+    true;
+
+
+/* =====================================================
+   CHARACTER IMAGES
+===================================================== */
+
+const images = {
+
+    sam:
+        new Image(),
+
+    elmer:
+        new Image(),
+
+    jobel:
+        new Image(),
+
+    clark:
+        new Image(),
+
+    phase2:
+        new Image(),
+
+    brent:
+        new Image()
+
+};
+
+
+/*
+   Your drawings go in the images folder.
+*/
+
+images.sam.src =
+    "images/sam.png";
+
+images.elmer.src =
+    "images/elmer.png";
+
+images.jobel.src =
+    "images/jobel.png";
+
+images.clark.src =
+    "images/clark.png";
+
+images.phase2.src =
+    "images/phase2.png";
+
+images.brent.src =
+    "images/brent.png";
+
+
+/* =====================================================
+   CANVAS RESIZE
+===================================================== */
+
+function resizeCanvas(){
+
+    canvas.width =
+        window.innerWidth;
+
+    canvas.height =
+        window.innerHeight;
+
+}
+
+
+window.addEventListener(
+    "resize",
+    resizeCanvas
+);
+
+
+resizeCanvas();
+
+
+/* =====================================================
+   GAME STATE
+===================================================== */
+
+let gameStarted =
+    false;
+
+let gamePaused =
+    true;
+
+let dialogueActive =
+    false;
+
+let arenaTransition =
+    false;
+
+let currentArena =
+    1;
+
+let phase2Active =
+    false;
+
+let playerDead =
+    false;
+
+let gameFinished =
+    false;
+
+
+/* =====================================================
+   WORLD
+===================================================== */
+
+const world = {
+
+    width:1800,
+
+    height:1200
+
+};
+
+
+/* =====================================================
+   ARENA
+===================================================== */
+
+const arenaBounds = {
+
+    left:180,
+
+    top:120,
+
+    right:1620,
+
+    bottom:1080
+
+};
+
+
+/* =====================================================
+   PLAYER
+===================================================== */
+
+const player = {
+
+    x:900,
+
+    y:900,
+
+    radius:24,
+
+    speed:3.8,
+
+    hp:100,
+
+    maxHp:100,
+
+    invincible:0,
+
+    facing:0
+
+};
+
+
+/* =====================================================
+   WEAPON
+===================================================== */
+
+const weapon = {
+
+    ammo:5,
+
+    maxAmmo:5,
+
+    reloadTime:2000,
+
+    reloadTimer:0,
+
+    reloading:false,
+
+    fireCooldown:0,
+
+    fireDelay:220
+
+};
+
+
+/* =====================================================
+   JOYSTICK STATE
+===================================================== */
+
+const joystickState = {
+
+    active:false,
+
+    pointerId:null,
+
+    x:0,
+
+    y:0,
+
+    power:0
+
+};
+
+
+/* =====================================================
+   SHOOT STATE
+===================================================== */
+
+let shooting =
+    false;
+
+
+/* =====================================================
+   OBJECT ARRAYS
+===================================================== */
+
+let enemies = [];
+
+let bullets = [];
+
+let enemyBullets = [];
+
+let particles = [];
+
+let trees = [];
+
+
+/* =====================================================
+   CLARK
+===================================================== */
+
+let clark = null;
+
+
+/* =====================================================
+   CAMERA
+===================================================== */
+
+const camera = {
+
+    x:0,
+
+    y:0,
+
+    smooth:0.12
+
+};
+
+
+/* =====================================================
+   DIALOGUE DATA
+===================================================== */
+
+/*
+   You can easily edit these later.
+*/
+
+const dialogues = {
+
+    arena1:[
+
+        {
+            speaker:"Sam",
+
+            image:"sam",
+
+            text:
+                "Kailangan kong makuha ang turon ni clark"
+        },
+
+        {
+            speaker:"Sam",
+
+            image:"sam",
+
+            text:
+                "Di niya ako pinatikim ng masarap niyang canton"
+        },
+
+        {
+            speaker:"Sam",
+
+            image:"sam",
+
+            text:
+                "Kaya titikman ko ang turon niya ng may pwersa."
+        },
+
+        {
+            speaker:"Elmer",
+
+            image:"elmer",
+
+            text:
+                "turon ko ayaw mo?"
+        }
+
+    ],
+
+
+    arena2:[
+
+        {
+            speaker:"Sam",
+
+            image:"sam",
+
+            text:
+                "Malapit nako,wag kang gagalaw clark"
+        },
+
+        {
+            speaker:"Jobel",
+
+            image:"jobel",
+
+            text:
+                "Ikaw galawin ko"
+        },
+
+        {
+            speaker:"Sam",
+
+            image:"sam",
+
+            text:
+                "Awit"
+        }
+
+    ],
+
+
+    arena3:[
+
+        {
+            speaker:"Sam",
+
+            image:"sam",
+
+            text:
+                "Andito nako"
+        },
+
+        {
+            speaker:"Sam",
+
+            image:"sam",
+
+            text:
+                "Andito na ang halimaw"
+        },
+
+        {
+            speaker:"Clark",
+
+            image:"clark",
+
+            text:
+                "Tsk, expected na kita boi"
+        },
+
+        {
+            speaker:"Sam",
+
+            image:"sam",
+
+            text:
+                "bigay mona kasi turon mo"
+        },
+
+        {
+            speaker:"Clark",
+
+            image:"clark",
+
+            text:
+                "Hard to get ako boss"
+        },
+
+        {
+            speaker:"Sam",
+
+            image:"sam",
+
+            text:
+                "Lalabas kona ang aking 7 inches"
+        },
+
+        {
+            speaker:"Clark",
+
+            image:"clark",
+
+            text:
+                "putukan na"
+        }
+
+    ],
+
+
+    phase2Start:[
+
+        {
+            speaker:"Sam",
+
+            image:"sam",
+
+            text:
+                "Ezpancitcanton"
+        },
+
+        {
+            speaker:"Clark",
+
+            image:"clark",
+
+            text:
+                "Hindi ko ipapatikim ang aking turon."
+        },
+
+        {
+            speaker:"Clark",
+
+            image:"clark",
+
+            text:
+                "ilalabas kona ang aking isang daang porsyento"
+        },
+
+        {
+            speaker:"Sam",
+
+            image:"sam",
+
+            text:
+                "Oh no! Pls be gentle"
+        }
+
+    ],
+
+
+    ending:[
+
+        {
+            speaker:"Sam",
+
+            image:"sam",
+
+            text:
+                "sarap"
+        },
+
+        {
+            speaker:"Sam",
+
+            image:"sam",
+
+            text:
+                "ng nananalo"
+        },
+
+        {
+            speaker:"Clark",
+
+            image:"clark",
+
+            text:
+                "Eguls lantutay na yung sakin"
+        },
+
+        {
+            speaker:"Sam",
+
+            image:"sam",
+
+            text:
+                "huh? may naririnig kaba?"
+        },
+
+        {
+            speaker:"Clark",
+
+            image:"clark",
+
+            text:
+                "Lagot na! si Brent ito!!"
+        },
+
+        {
+            speaker:"Brent",
+
+            image:"brent",
+
+            text:
+                "Tigbason Tikaron"
+        }
+
+    ]
+
+};
+
+
+/* =====================================================
+   DIALOGUE STATE
+===================================================== */
+
+let dialogueList =
+    [];
+
+let dialogueIndex =
+    0;
+
+let dialogueCallback =
+    null;
+
+
+/* =====================================================
+   START DIALOGUE
+===================================================== */
+
+function startDialogue(
+    list,
+    callback
+){
+
+    dialogueList =
+        list;
+
+    dialogueIndex =
+        0;
+
+    dialogueCallback =
+        callback || null;
+
+    dialogueActive =
+        true;
+
+    gamePaused =
+        true;
+
+    dialogueScene.style.display =
+        "flex";
+
+    showDialogue();
+
+}
+
+
+/* =====================================================
+   SHOW CURRENT DIALOGUE
+===================================================== */
+
+function showDialogue(){
+
+    if(
+        dialogueIndex >=
+        dialogueList.length
+    ){
+
+        endDialogue();
+
+        return;
+
+    }
+
+
+    const line =
+        dialogueList[
+            dialogueIndex
+        ];
+
+
+    speaker.textContent =
+        line.speaker;
+
+
+    dialogueText.textContent =
+        line.text;
+
+
+    const image =
+        images[line.image];
+
+
+    if(
+        image &&
+        image.complete &&
+        image.naturalWidth > 0
+    ){
+
+        characterImage.src =
+            image.src;
+
+        characterImage.style.display =
+            "block";
+
+    }
+    else{
+
+        characterImage.removeAttribute(
+            "src"
+        );
+
+        characterImage.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =====================================================
+   NEXT DIALOGUE
+===================================================== */
+
+function nextDialogue(){
+
+    if(
+        !dialogueActive
+    ){
+
+        return;
+
+    }
+
+
+    dialogueIndex++;
+
+
+    if(
+        dialogueIndex >=
+        dialogueList.length
+    ){
+
+        endDialogue();
+
+    }
+    else{
+
+        showDialogue();
+
+    }
+
+}
+
+
+/* =====================================================
+   END DIALOGUE
+===================================================== */
+
+function endDialogue(){
+
+    dialogueActive =
+        false;
+
+    dialogueScene.style.display =
+        "none";
+
+    gamePaused =
+        false;
+
+
+    if(
+        dialogueCallback
+    ){
+
+        const callback =
+            dialogueCallback;
+
+        dialogueCallback =
+            null;
+
+        callback();
+
+    }
+
+}
+
+
+/* =====================================================
+   DIALOGUE CLICK / TOUCH
+===================================================== */
+
+dialogueScene.addEventListener(
+    "pointerdown",
+    event => {
+
+        event.preventDefault();
+
+        nextDialogue();
+
+    }
+);
+
+
+/* =====================================================
+   MUSIC CONTROL
+===================================================== */
+
+function stopAllMusic(){
+
+    normalMusic.pause();
+
+    bossMusic.pause();
+
+    phase2Music.pause();
+
+    brentMusic.pause();
+
+}
+
+
+function playMusic(
+    audio
+){
+
+    if(
+        !musicEnabled
+    ){
+
+        return;
+
+    }
+
+
+    stopAllMusic();
+
+
+    audio.currentTime =
+        0;
+
+
+    audio.play().catch(
+        () => {}
+    );
+
+}
+
+
+musicButton.addEventListener(
+    "click",
+    () => {
+
+        musicEnabled =
+            !musicEnabled;
+
+
+        if(
+            !musicEnabled
+        ){
+
+            stopAllMusic();
+
+            musicButton.textContent =
+                "🔇";
+
+        }
+        else{
+
+            musicButton.textContent =
+                "♫";
+
+
+            if(
+                phase2Active
+            ){
+
+                playMusic(
+                    phase2Music
+                );
+
+            }
+            else if(
+                currentArena === 3
+            ){
+
+                playMusic(
+                    bossMusic
+                );
+
+            }
+            else{
+
+                playMusic(
+                    normalMusic
+                );
+
+            }
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   PHASE 2 VIDEO
+===================================================== */
+
+phase2Video.addEventListener(
+    "ended",
+    () => {
+
+        phase2Cutscene.style.display =
+            "none";
+
+
+        /*
+           THIS IS THE IMPORTANT PART:
+
+           After the video finishes,
+           Phase 2 becomes active.
+
+           Clark will now use
+           images.phase2.
+        */
+
+        phase2Active =
+            true;
+
+
+        /*
+           Start Phase 2 music
+           ONLY AFTER the video ends.
+        */
+
+        playMusic(
+            phase2Music
+        );
+
+
+        /*
+           Start the actual Phase 2 battle.
+        */
+
+        startClarkPhase2();
+
+    }
+);
+
+
+/* =====================================================
+   START PHASE 2 CUTSCENE
+===================================================== */
+
+function playPhase2Cutscene(){
+
+    gamePaused =
+        true;
+
+    dialogueActive =
+        false;
+
+
+    phase2Cutscene.style.display =
+        "flex";
+
+
+    phase2Video.currentTime =
+        0;
+
+
+    /*
+       Stop previous music while
+       the cutscene is playing.
+    */
+
+    stopAllMusic();
+
+
+    phase2Video.play().catch(
+        () => {}
+    );
+
+}
+
+
+/* =====================================================
+   UPDATE HEALTH UI
+===================================================== */
+
+function updateHealthUI(){
+
+    const percent =
+        Math.max(
+            0,
+            player.hp /
+            player.maxHp
+        ) * 100;
+
+
+    healthBar.style.width =
+        percent + "%";
+
+}
+
+
+/* =====================================================
+   UPDATE AMMO UI
+===================================================== */
+
+function updateAmmoUI(){
+
+    ammoText.textContent =
+        weapon.ammo +
+        " / " +
+        weapon.maxAmmo;
+
+
+    if(
+        weapon.reloading
+    ){
+
+        const seconds =
+            Math.ceil(
+                weapon.reloadTimer /
+                1000
+            );
+
+
+        reloadText.textContent =
+            "RELOADING " +
+            seconds +
+            "s";
+
+    }
+    else{
+
+        reloadText.textContent =
+            "READY";
+
+    }
+
+}
+
+
+/* =====================================================
+   START GAME
+===================================================== */
+
+startButton.addEventListener(
+    "click",
+    startGame
+);
+
+
+function startGame(){
+
+    if(
+        gameStarted
+    ){
+
+        return;
+
+    }
+
+
+    gameStarted =
+        true;
+
+    gamePaused =
+        true;
+
+    startScreen.style.display =
+        "none";
+
+
+    resetGame();
+
+
+    /*
+       Start Arena 1 dialogue first.
+    */
+
+    startDialogue(
+        dialogues.arena1,
+        () => {
+
+            beginArena1();
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   RESET GAME
+===================================================== */
+
+function resetGame(){
+
+    currentArena =
+        1;
+
+    phase2Active =
+        false;
+
+    playerDead =
+        false;
+
+    gameFinished =
+        false;
+
+    player.hp =
+        player.maxHp;
+
+    player.x =
+        900;
+
+    player.y =
+        900;
+
+    weapon.ammo =
+        weapon.maxAmmo;
+
+    weapon.reloading =
+        false;
+
+    weapon.reloadTimer =
+        0;
+
+    bullets =
+        [];
+
+    enemyBullets =
+        [];
+
+    particles =
+        [];
+
+    enemies =
+        [];
+
+    clark =
+        null;
+
+    generateTrees();
+
+    updateHealthUI();
+
+    updateAmmoUI();
+
+}
+
+
+/* =====================================================
+   RESTART
+===================================================== */
+
+restartButton.addEventListener(
+    "click",
+    () => {
+
+        gameOver.style.display =
+            "none";
+
+        resetGame();
+
+        startDialogue(
+            dialogues.arena1,
+            () => {
+
+                beginArena1();
+
+            }
+        );
+
+    }
+);
+
+
+endingRestart.addEventListener(
+    "click",
+    () => {
+
+        ending.style.display =
+            "none";
+
+        resetGame();
+
+        startDialogue(
+            dialogues.arena1,
+            () => {
+
+                beginArena1();
+
+            }
+        );
+
+    }
+);
+
+
+/* =====================================================
+   END OF PART 2
+===================================================== */
+    /* =====================================================
+   VIRTUAL JOYSTICK
+===================================================== */
+
+const joystickRadius =
+    70;
+
+const knobRadius =
+    32;
+
+
+function updateJoystick(
+    clientX,
+    clientY
+){
+
+    const rect =
+        joystick.getBoundingClientRect();
+
+
+    const centerX =
+        rect.left +
+        rect.width / 2;
+
+
+    const centerY =
+        rect.top +
+        rect.height / 2;
+
+
+    let dx =
+        clientX -
+        centerX;
+
+
+    let dy =
+        clientY -
+        centerY;
+
+
+    const distance =
+        Math.sqrt(
+            dx * dx +
+            dy * dy
+        );
+
+
+    const maxDistance =
+        joystickRadius -
+        knobRadius;
+
+
+    if(
+        distance >
+        maxDistance
+    ){
+
+        dx =
+            dx /
+            distance *
+            maxDistance;
+
+        dy =
+            dy /
+            distance *
+            maxDistance;
+
+    }
+
+
+    joystickState.x =
+        dx /
+        maxDistance;
+
+
+    joystickState.y =
+        dy /
+        maxDistance;
+
+
+    joystickState.power =
+        Math.min(
+            distance /
+            maxDistance,
+            1
+        );
+
+
+    joystickKnob.style.transform =
+        `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
+
+}
+
+
+/* =====================================================
+   RESET JOYSTICK
+===================================================== */
+
+function resetJoystick(){
+
+    joystickState.active =
+        false;
+
+    joystickState.pointerId =
+        null;
+
+    joystickState.x =
+        0;
+
+    joystickState.y =
+        0;
+
+    joystickState.power =
+        0;
+
+
+    joystickKnob.style.transform =
+        "translate(-50%, -50%)";
+
+}
+
+
+/* =====================================================
+   JOYSTICK POINTER DOWN
+===================================================== */
+
+joystick.addEventListener(
+    "pointerdown",
+    event => {
+
+        event.preventDefault();
+
+
+        joystickState.active =
+            true;
+
+        joystickState.pointerId =
+            event.pointerId;
+
+
+        joystick.setPointerCapture(
+            event.pointerId
+        );
+
+
+        updateJoystick(
+            event.clientX,
+            event.clientY
+        );
+
+    }
+);
+
+
+/* =====================================================
+   JOYSTICK POINTER MOVE
+===================================================== */
+
+joystick.addEventListener(
+    "pointermove",
+    event => {
+
+        if(
+            !joystickState.active
+        ){
+
+            return;
+
+        }
+
+
+        if(
+            event.pointerId !==
+            joystickState.pointerId
+        ){
+
+            return;
+
+        }
+
+
+        event.preventDefault();
+
+
+        updateJoystick(
+            event.clientX,
+            event.clientY
+        );
+
+    }
+);
+
+
+/* =====================================================
+   JOYSTICK RELEASE
+===================================================== */
+
+joystick.addEventListener(
+    "pointerup",
+    event => {
+
+        event.preventDefault();
+
+        resetJoystick();
+
+    }
+);
+
+
+joystick.addEventListener(
+    "pointercancel",
+    event => {
+
+        event.preventDefault();
+
+        resetJoystick();
+
+    }
+);
+
+
+/* =====================================================
+   KEYBOARD SUPPORT
+===================================================== */
+
+const keyboard = {
+
+    up:false,
+
+    down:false,
+
+    left:false,
+
+    right:false,
+
+    shoot:false
+
+};
+
+
+window.addEventListener(
+    "keydown",
+    event => {
+
+        if(
+            event.key ===
+            "ArrowUp" ||
+            event.key.toLowerCase() ===
+            "w"
+        ){
+
+            keyboard.up =
+                true;
+
+        }
+
+
+        if(
+            event.key ===
+            "ArrowDown" ||
+            event.key.toLowerCase() ===
+            "s"
+        ){
+
+            keyboard.down =
+                true;
+
+        }
+
+
+        if(
+            event.key ===
+            "ArrowLeft" ||
+            event.key.toLowerCase() ===
+            "a"
+        ){
+
+            keyboard.left =
+                true;
+
+        }
+
+
+        if(
+            event.key ===
+            "ArrowRight" ||
+            event.key.toLowerCase() ===
+            "d"
+        ){
+
+            keyboard.right =
+                true;
+
+        }
+
+
+        if(
+            event.code ===
+            "Space"
+        ){
+
+            keyboard.shoot =
+                true;
+
+            event.preventDefault();
+
+        }
+
+    }
+);
+
+
+window.addEventListener(
+    "keyup",
+    event => {
+
+        if(
+            event.key ===
+            "ArrowUp" ||
+            event.key.toLowerCase() ===
+            "w"
+        ){
+
+            keyboard.up =
+                false;
+
+        }
+
+
+        if(
+            event.key ===
+            "ArrowDown" ||
+            event.key.toLowerCase() ===
+            "s"
+        ){
+
+            keyboard.down =
+                false;
+
+        }
+
+
+        if(
+            event.key ===
+            "ArrowLeft" ||
+            event.key.toLowerCase() ===
+            "a"
+        ){
+
+            keyboard.left =
+                false;
+
+        }
+
+
+        if(
+            event.key ===
+            "ArrowRight" ||
+            event.key.toLowerCase() ===
+            "d"
+        ){
+
+            keyboard.right =
+                false;
+
+        }
+
+
+        if(
+            event.code ===
+            "Space"
+        ){
+
+            keyboard.shoot =
+                false;
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   SHOOT BUTTON
+===================================================== */
+
+shootButton.addEventListener(
+    "pointerdown",
+    event => {
+
+        event.preventDefault();
+
+        shooting =
+            true;
+
+        shootButton.setPointerCapture(
+            event.pointerId
+        );
+
+    }
+);
+
+
+shootButton.addEventListener(
+    "pointerup",
+    event => {
+
+        event.preventDefault();
+
+        shooting =
+            false;
+
+    }
+);
+
+
+shootButton.addEventListener(
+    "pointercancel",
+    () => {
+
+        shooting =
+            false;
+
+    }
+);
+
+
+/* =====================================================
+   GET MOVEMENT INPUT
+===================================================== */
+
+function getMovementInput(){
+
+    let x =
+        joystickState.x;
+
+    let y =
+        joystickState.y;
+
+
+    /*
+       Keyboard is also supported.
+    */
+
+    if(
+        keyboard.left
+    ){
+
+        x -= 1;
+
+    }
+
+
+    if(
+        keyboard.right
+    ){
+
+        x += 1;
+
+    }
+
+
+    if(
+        keyboard.up
+    ){
+
+        y -= 1;
+
+    }
+
+
+    if(
+        keyboard.down
+    ){
+
+        y += 1;
+
+    }
+
+
+    /*
+       Normalize keyboard movement.
+    */
+
+    const length =
+        Math.sqrt(
+            x * x +
+            y * y
+        );
+
+
+    if(
+        length > 1
+    ){
+
+        x /=
+            length;
+
+        y /=
+            length;
+
+    }
+
+
+    return {
+        x,
+        y
+    };
+
+}
+
+
+/* =====================================================
+   DISTANCE
+===================================================== */
+
+function distanceBetween(
+    a,
+    b
+){
+
+    const dx =
+        a.x -
+        b.x;
+
+    const dy =
+        a.y -
+        b.y;
+
+
+    return Math.sqrt(
+        dx * dx +
+        dy * dy
+    );
+
+}
+
+
+/* =====================================================
+   ANGLE
+===================================================== */
+
+function angleBetween(
+    a,
+    b
+){
+
+    return Math.atan2(
+
+        b.y -
+        a.y,
+
+        b.x -
+        a.x
+
+    );
+
+}
+
+
+/* =====================================================
+   GET NEAREST TARGET
+===================================================== */
+
+function getNearestTarget(){
+
+    let closest =
+        null;
+
+    let closestDistance =
+        Infinity;
+
+
+    /*
+       Phase 2 / Clark.
+    */
+
+    if(
+        clark &&
+        !clark.dead
+    ){
+
+        const d =
+            distanceBetween(
+                player,
+                clark
+            );
+
+
+        if(
+            d <
+            closestDistance
+        ){
+
+            closest =
+                clark;
+
+            closestDistance =
+                d;
+
+        }
+
+    }
+
+
+    /*
+       Normal enemies.
+    */
+
+    for(
+        const enemy of enemies
+    ){
+
+        if(
+            enemy.dead
+        ){
+
+            continue;
+
+        }
+
+
+        const d =
+            distanceBetween(
+                player,
+                enemy
+            );
+
+
+        if(
+            d <
+            closestDistance
+        ){
+
+            closest =
+                enemy;
+
+            closestDistance =
+                d;
+
+        }
+
+    }
+
+
+    return closest;
+
+}
+
+
+/* =====================================================
+   AUTOMATIC AIM
+===================================================== */
+
+function getAimAngle(){
+
+    const target =
+        getNearestTarget();
+
+
+    if(
+        target
+    ){
+
+        return angleBetween(
+            player,
+            target
+        );
+
+    }
+
+
+    return player.facing;
+
+}
+
+
+/* =====================================================
+   SHOOT
+===================================================== */
+
+function tryShoot(){
+
+    if(
+        !gameStarted ||
+        gamePaused ||
+        playerDead
+    ){
+
+        return;
+
+    }
+
+
+    if(
+        weapon.reloading
+    ){
+
+        return;
+
+    }
+
+
+    if(
+        weapon.fireCooldown >
+        0
+    ){
+
+        return;
+
+    }
+
+
+    if(
+        weapon.ammo <= 0
+    ){
+
+        startReload();
+
+        return;
+
+    }
+
+
+    const angle =
+        getAimAngle();
+
+
+    player.facing =
+        angle;
+
+
+    const bulletSpeed =
+        10;
+
+
+    bullets.push({
+
+        x:
+            player.x +
+            Math.cos(angle) *
+            25,
+
+        y:
+            player.y +
+            Math.sin(angle) *
+            25,
+
+        vx:
+            Math.cos(angle) *
+            bulletSpeed,
+
+        vy:
+            Math.sin(angle) *
+            bulletSpeed,
+
+        radius:
+            6,
+
+        damage:
+            20,
+
+        life:
+            100
+
+    });
+
+
+    weapon.ammo--;
+
+
+    weapon.fireCooldown =
+        weapon.fireDelay;
+
+
+    createParticles(
+        player.x +
+        Math.cos(angle) *
+        25,
+
+        player.y +
+        Math.sin(angle) *
+        25,
+
+        4
+    );
+
+
+    if(
+        weapon.ammo <= 0
+    ){
+
+        startReload();
+
+    }
+
+
+    updateAmmoUI();
+
+}
+
+
+/* =====================================================
+   RELOAD
+===================================================== */
+
+function startReload(){
+
+    if(
+        weapon.reloading
+    ){
+
+        return;
+
+    }
+
+
+    if(
+        weapon.ammo >=
+        weapon.maxAmmo
+    ){
+
+        return;
+
+    }
+
+
+    weapon.reloading =
+        true;
+
+    weapon.reloadTimer =
+        weapon.reloadTime;
+
+
+    updateAmmoUI();
+
+}
+
+
+/* =====================================================
+   UPDATE RELOAD
+===================================================== */
+
+function updateReload(
+    delta
+){
+
+    if(
+        !weapon.reloading
+    ){
+
+        return;
+
+    }
+
+
+    weapon.reloadTimer -=
+        delta;
+
+
+    if(
+        weapon.reloadTimer <=
+        0
+    ){
+
+        weapon.reloadTimer =
+            0;
+
+        weapon.ammo =
+            weapon.maxAmmo;
+
+        weapon.reloading =
+            false;
+
+    }
+
+
+    updateAmmoUI();
+
+}
+
+
+/* =====================================================
+   MOVE PLAYER
+===================================================== */
+
+function movePlayer(
+    delta
+){
+
+    if(
+        gamePaused ||
+        playerDead
+    ){
+
+        return;
+
+    }
+
+
+    const input =
+        getMovementInput();
+
+
+    const speed =
+        player.speed *
+        (delta / 16.67);
+
+
+    let newX =
+        player.x +
+        input.x *
+        speed;
+
+
+    let newY =
+        player.y +
+        input.y *
+        speed;
+
+
+    /*
+       World boundaries.
+    */
+
+    newX =
+        Math.max(
+            arenaBounds.left +
+            player.radius,
+
+            Math.min(
+                arenaBounds.right -
+                player.radius,
+
+                newX
+            )
+        );
+
+
+    newY =
+        Math.max(
+            arenaBounds.top +
+            player.radius,
+
+            Math.min(
+                arenaBounds.bottom -
+                player.radius,
+
+                newY
+            )
+        );
+
+
+    /*
+       Tree collision.
+    */
+
+    if(
+        !collidesWithTrees(
+            newX,
+            player.y,
+            player.radius
+        )
+    ){
+
+        player.x =
+            newX;
+
+    }
+
+
+    if(
+        !collidesWithTrees(
+            player.x,
+            newY,
+            player.radius
+        )
+    ){
+
+        player.y =
+            newY;
+
+    }
+
+
+    /*
+       Facing follows movement
+       if there is no target.
+    */
+
+    if(
+        input.x !== 0 ||
+        input.y !== 0
+    ){
+
+        if(
+            !getNearestTarget()
+        ){
+
+            player.facing =
+                Math.atan2(
+                    input.y,
+                    input.x
+                );
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   TREE COLLISION
+===================================================== */
+
+function collidesWithTrees(
+    x,
+    y,
+    radius
+){
+
+    for(
+        const tree of trees
+    ){
+
+        const closestX =
+            Math.max(
+                tree.x,
+                Math.min(
+                    x,
+                    tree.x +
+                    tree.size
+                )
+            );
+
+
+        const closestY =
+            Math.max(
+                tree.y,
+                Math.min(
+                    y,
+                    tree.y +
+                    tree.size
+                )
+            );
+
+
+        const dx =
+            x -
+            closestX;
+
+        const dy =
+            y -
+            closestY;
+
+
+        if(
+            dx * dx +
+            dy * dy <
+            radius * radius
+        ){
+
+            return true;
+
+        }
+
+    }
+
+
+    return false;
+
+}
+
+
+/* =====================================================
+   BULLET COLLISION WITH TREES
+===================================================== */
+
+function bulletHitsTree(
+    bullet
+){
+
+    for(
+        const tree of trees
+    ){
+
+        if(
+
+            bullet.x >
+            tree.x &&
+
+            bullet.x <
+            tree.x +
+            tree.size &&
+
+            bullet.y >
+            tree.y &&
+
+            bullet.y <
+            tree.y +
+            tree.size
+
+        ){
+
+            return true;
+
+        }
+
+    }
+
+
+    return false;
+
+}
+
+
+/* =====================================================
+   CREATE PARTICLES
+===================================================== */
+
+function createParticles(
+    x,
+    y,
+    amount
+){
+
+    for(
+        let i = 0;
+        i < amount;
+        i++
+    ){
+
+        const angle =
+            Math.random() *
+            Math.PI *
+            2;
+
+
+        const speed =
+            1 +
+            Math.random() *
+            3;
+
+
+        particles.push({
+
+            x:x,
+
+            y:y,
+
+            vx:
+                Math.cos(angle) *
+                speed,
+
+            vy:
+                Math.sin(angle) *
+                speed,
+
+            life:
+                30 +
+                Math.random() *
+                30,
+
+            size:
+                2 +
+                Math.random() *
+                3
+
+        });
+
+    }
+
+}
+
+
+/* =====================================================
+   UPDATE PARTICLES
+===================================================== */
+
+function updateParticles(
+    delta
+){
+
+    for(
+        let i =
+            particles.length -
+            1;
+
+        i >= 0;
+
+        i--
+    ){
+
+        const p =
+            particles[i];
+
+
+        p.x +=
+            p.vx *
+            (delta / 16.67);
+
+
+        p.y +=
+            p.vy *
+            (delta / 16.67);
+
+
+        p.life -=
+            delta / 16.67;
+
+
+        p.vx *=
+            .97;
+
+        p.vy *=
+            .97;
+
+
+        if(
+            p.life <=
+            0
+        ){
+
+            particles.splice(
+                i,
+                1
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   UPDATE PLAYER BULLETS
+===================================================== */
+
+function updateBullets(
+    delta
+){
+
+    for(
+        let i =
+            bullets.length -
+            1;
+
+        i >= 0;
+
+        i--
+    ){
+
+        const bullet =
+            bullets[i];
+
+
+        bullet.x +=
+            bullet.vx *
+            (delta / 16.67);
+
+
+        bullet.y +=
+            bullet.vy *
+            (delta / 16.67);
+
+
+        bullet.life -=
+            delta / 16.67;
+
+
+        /*
+           Trees block bullets.
+        */
+
+        if(
+            bulletHitsTree(
+                bullet
+            )
+        ){
+
+            createParticles(
+                bullet.x,
+                bullet.y,
+                3
+            );
+
+
+            bullets.splice(
+                i,
+                1
+            );
+
+            continue;
+
+        }
+
+
+        /*
+           Outside arena.
+        */
+
+        if(
+            bullet.x <
+            arenaBounds.left ||
+
+            bullet.x >
+            arenaBounds.right ||
+
+            bullet.y <
+            arenaBounds.top ||
+
+            bullet.y >
+            arenaBounds.bottom ||
+
+            bullet.life <=
+            0
+        ){
+
+            bullets.splice(
+                i,
+                1
+            );
+
+            continue;
+
+        }
+
+
+        /*
+           Enemy collision.
+        */
+
+        let hit =
+            false;
+
+
+        for(
+            const enemy of enemies
+        ){
+
+            if(
+                enemy.dead
+            ){
+
+                continue;
+
+            }
+
+
+            if(
+                distanceBetween(
+                    bullet,
+                    enemy
+                ) <
+                bullet.radius +
+                enemy.radius
+            ){
+
+                enemy.hp -=
+                    bullet.damage;
+
+                enemy.hitFlash =
+                    100;
+
+                createParticles(
+                    bullet.x,
+                    bullet.y,
+                    5
+                );
+
+
+                bullets.splice(
+                    i,
+                    1
+                );
+
+
+                hit =
+                    true;
+
+
+                if(
+                    enemy.hp <=
+                    0
+                ){
+
+                    killEnemy(
+                        enemy
+                    );
+
+                }
+
+
+                break;
+
+            }
+
+        }
+
+
+        if(
+            hit
+        ){
+
+            continue;
+
+        }
+
+
+        /*
+           Clark collision.
+        */
+
+        if(
+            clark &&
+            !clark.dead
+        ){
+
+            if(
+                distanceBetween(
+                    bullet,
+                    clark
+                ) <
+                bullet.radius +
+                clark.radius
+            ){
+
+                clark.hp -=
+                    bullet.damage;
+
+                clark.hitFlash =
+                    100;
+
+                createParticles(
+                    bullet.x,
+                    bullet.y,
+                    7
+                );
+
+
+                bullets.splice(
+                    i,
+                    1
+                );
+
+
+                if(
+                    clark.hp <=
+                    0
+                ){
+
+                    killClark();
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   END OF PART 3
+===================================================== */
+    
+    /* =====================================================
+   TREE GENERATION
+===================================================== */
+
+const TREE_SIZE =
+    65;
+
+
+function generateTrees(){
+
+    trees =
+        [];
+
+
+    /*
+       Fixed tree positions make the arena
+       feel designed instead of completely random.
+    */
+
+    const positions = [
+
+        [300,220],
+        [500,220],
+        [700,220],
+        [1100,220],
+        [1300,220],
+        [1500,220],
+
+        [250,450],
+        [450,450],
+        [1350,450],
+        [1550,450],
+
+        [300,700],
+        [500,700],
+        [1300,700],
+        [1500,700],
+
+        [300,950],
+        [550,950],
+        [750,950],
+        [1050,950],
+        [1250,950],
+        [1500,950]
+
+    ];
+
+
+    for(
+        const position of positions
+    ){
+
+        trees.push({
+
+            x:position[0],
+
+            y:position[1],
+
+            size:TREE_SIZE
+
+        });
+
+    }
+
+}
+
+
+/* =====================================================
+   RANDOM POSITION
+===================================================== */
+
+function randomArenaPosition(){
+
+    let position;
+
+    let attempts =
+        0;
+
+
+    do{
+
+        position = {
+
+            x:
+                arenaBounds.left +
+                100 +
+                Math.random() *
+                (
+                    arenaBounds.right -
+                    arenaBounds.left -
+                    200
+                ),
+
+            y:
+                arenaBounds.top +
+                100 +
+                Math.random() *
+                (
+                    arenaBounds.bottom -
+                    arenaBounds.top -
+                    200
+                )
+
+        };
+
+
+        attempts++;
+
+
+    }while(
+
+        (
+            distanceBetween(
+                position,
+                player
+            ) < 250
+
+        ) &&
+
+        attempts < 100
+
+    );
+
+
+    return position;
+
+}
+
+
+/* =====================================================
+   CREATE ENEMY
+===================================================== */
+
+function createEnemy(
+    type,
+    hp,
+    speed,
+    damage
+){
+
+    const position =
+        randomArenaPosition();
+
+
+    enemies.push({
+
+        type:type,
+
+        x:
+            position.x,
+
+        y:
+            position.y,
+
+        radius:
+            25,
+
+        hp:hp,
+
+        maxHp:hp,
+
+        speed:speed,
+
+        damage:damage,
+
+        attackCooldown:0,
+
+        hitFlash:0,
+
+        dead:false
+
+    });
+
+}
+
+
+/* =====================================================
+   ARENA 1
+===================================================== */
+
+function beginArena1(){
+
+    currentArena =
+        1;
+
+    arenaText.textContent =
+        "ARENA 1";
+
+
+    enemies =
+        [];
+
+    clark =
+        null;
+
+
+    /*
+       One Elmer plus additional enemies.
+    */
+
+    createEnemy(
+        "Elmer",
+        70,
+        1.15,
+        8
+    );
+
+
+    createEnemy(
+        "Enemy",
+        60,
+        1.25,
+        7
+    );
+
+
+    createEnemy(
+        "Enemy",
+        60,
+        1.3,
+        7
+    );
+
+
+    createEnemy(
+        "Enemy",
+        65,
+        1.2,
+        8
+    );
+
+
+    createEnemy(
+        "Enemy",
+        60,
+        1.3,
+        7
+    );
+
+
+    playMusic(
+        normalMusic
+    );
+
+}
+
+
+/* =====================================================
+   ARENA 2
+===================================================== */
+
+function beginArena2(){
+
+    currentArena =
+        2;
+
+    arenaText.textContent =
+        "ARENA 2";
+
+
+    enemies =
+        [];
+
+    clark =
+        null;
+
+
+    /*
+       Jobel plus more enemies.
+    */
+
+    createEnemy(
+        "Jobel",
+        100,
+        1.25,
+        10
+    );
+
+
+    createEnemy(
+        "Enemy",
+        65,
+        1.4,
+        8
+    );
+
+
+    createEnemy(
+        "Enemy",
+        65,
+        1.35,
+        8
+    );
+
+
+    createEnemy(
+        "Enemy",
+        70,
+        1.25,
+        9
+    );
+
+
+    createEnemy(
+        "Enemy",
+        70,
+        1.4,
+        8
+    );
+
+
+    createEnemy(
+        "Enemy",
+        65,
+        1.35,
+        8
+    );
+
+
+    playMusic(
+        normalMusic
+    );
+
+}
+
+
+/* =====================================================
+   ARENA 3
+===================================================== */
+
+function beginArena3(){
+
+    currentArena =
+        3;
+
+    arenaText.textContent =
+        "ARENA 3";
+
+
+    enemies =
+        [];
+
+
+    /*
+       Clark starts in the center/top.
+    */
+
+    clark = {
+
+        x:
+            world.width / 2,
+
+        y:
+            arenaBounds.top +
+            180,
+
+        radius:
+            48,
+
+        hp:
+            600,
+
+        maxHp:
+            600,
+
+        speed:
+            1.1,
+
+        damage:
+            12,
+
+        attackCooldown:
+            1000,
+
+        patternTimer:
+            0,
+
+        pattern:
+            0,
+
+        hitFlash:
+            0,
+
+        dead:
+            false
+
+    };
+
+
+    playMusic(
+        bossMusic
+    );
+
+}
+
+
+/* =====================================================
+   ENEMY AI
+===================================================== */
+
+function updateEnemies(
+    delta
+){
+
+    if(
+        gamePaused ||
+        playerDead
+    ){
+
+        return;
+
+    }
+
+
+    for(
+        const enemy of enemies
+    ){
+
+        if(
+            enemy.dead
+        ){
+
+            continue;
+
+        }
+
+
+        const distance =
+            distanceBetween(
+                enemy,
+                player
+            );
+
+
+        const angle =
+            angleBetween(
+                enemy,
+                player
+            );
+
+
+        /*
+           Enemies only damage Sam
+           when they get close.
+        */
+
+        if(
+            distance >
+            enemy.radius +
+            player.radius +
+            10
+        ){
+
+            let moveX =
+                Math.cos(angle) *
+                enemy.speed *
+                (delta / 16.67);
+
+
+            let moveY =
+                Math.sin(angle) *
+                enemy.speed *
+                (delta / 16.67);
+
+
+            /*
+               Don't walk directly through trees.
+            */
+
+            const newX =
+                enemy.x +
+                moveX;
+
+            const newY =
+                enemy.y +
+                moveY;
+
+
+            if(
+                !collidesWithTrees(
+                    newX,
+                    enemy.y,
+                    enemy.radius
+                )
+            ){
+
+                enemy.x =
+                    newX;
+
+            }
+
+
+            if(
+                !collidesWithTrees(
+                    enemy.x,
+                    newY,
+                    enemy.radius
+                )
+            ){
+
+                enemy.y =
+                    newY;
+
+            }
+
+        }
+        else{
+
+            /*
+               Close-range attack.
+            */
+
+            enemy.attackCooldown -=
+                delta;
+
+
+            if(
+                enemy.attackCooldown <=
+                0
+            ){
+
+                damagePlayer(
+                    enemy.damage
+                );
+
+
+                enemy.attackCooldown =
+                    900;
+
+            }
+
+        }
+
+
+        /*
+           Keep enemies inside arena.
+        */
+
+        enemy.x =
+            Math.max(
+                arenaBounds.left +
+                enemy.radius,
+
+                Math.min(
+                    arenaBounds.right -
+                    enemy.radius,
+
+                    enemy.x
+                )
+            );
+
+
+        enemy.y =
+            Math.max(
+                arenaBounds.top +
+                enemy.radius,
+
+                Math.min(
+                    arenaBounds.bottom -
+                    enemy.radius,
+
+                    enemy.y
+                )
+            );
+
+    }
+
+}
+
+
+/* =====================================================
+   DAMAGE PLAYER
+===================================================== */
+
+function damagePlayer(
+    damage
+){
+
+    if(
+        playerDead
+    ){
+
+        return;
+
+    }
+
+
+    if(
+        player.invincible >
+        0
+    ){
+
+        return;
+
+    }
+
+
+    player.hp -=
+        damage;
+
+
+    player.invincible =
+        500;
+
+
+    updateHealthUI();
+
+
+    canvas.classList.remove(
+        "damageFlash"
+    );
+
+
+    void canvas.offsetWidth;
+
+
+    canvas.classList.add(
+        "damageFlash"
+    );
+
+
+    createParticles(
+        player.x,
+        player.y,
+        8
+    );
+
+
+    if(
+        player.hp <=
+        0
+    ){
+
+        player.hp =
+            0;
+
+        updateHealthUI();
+
+        killPlayer();
+
+    }
+
+}
+
+
+/* =====================================================
+   KILL ENEMY
+===================================================== */
+
+function killEnemy(
+    enemy
+){
+
+    if(
+        enemy.dead
+    ){
+
+        return;
+
+    }
+
+
+    enemy.dead =
+        true;
+
+
+    createParticles(
+        enemy.x,
+        enemy.y,
+        15
+    );
+
+}
+
+
+/* =====================================================
+   CHECK NORMAL ENEMIES
+===================================================== */
+
+function checkArenaEnemies(){
+
+    const alive =
+        enemies.some(
+            enemy =>
+                !enemy.dead
+        );
+
+
+    if(
+        !alive &&
+        !clark &&
+        !arenaTransition
+    ){
+
+        arenaTransition =
+            true;
+
+
+        nextArena();
+
+    }
+
+}
+
+
+/* =====================================================
+   NEXT ARENA
+===================================================== */
+
+function nextArena(){
+
+    gamePaused =
+        true;
+
+
+    if(
+        currentArena ===
+        1
+    ){
+
+        currentArena =
+            2;
+
+
+        setTimeout(
+            () => {
+
+                arenaTransition =
+                    false;
+
+
+                startDialogue(
+                    dialogues.arena2,
+                    () => {
+
+                        beginArena2();
+
+                    }
+                );
+
+            },
+            600
+        );
+
+    }
+
+
+    else if(
+        currentArena ===
+        2
+    ){
+
+        currentArena =
+            3;
+
+
+        setTimeout(
+            () => {
+
+                arenaTransition =
+                    false;
+
+
+                startDialogue(
+                    dialogues.arena3,
+                    () => {
+
+                        beginArena3();
+
+                    }
+                );
+
+            },
+            600
+        );
+
+    }
+
+}
+
+/* =====================================================
+   CLARK UPDATE — FIXED INSIDE ARENA
+===================================================== */
+
+function updateClark(delta){
+
+    if(
+        !clark ||
+        clark.dead ||
+        gamePaused ||
+        playerDead
+    ){
+        return;
+    }
+
+
+    const angle =
+        angleBetween(
+            clark,
+            player
+        );
+
+    const distance =
+        distanceBetween(
+            clark,
+            player
+        );
+
+
+    /* ---------------------------------------------
+       CLARK MOVEMENT
+    --------------------------------------------- */
+
+    if(distance < 300){
+
+        const moveX =
+            -Math.cos(angle) *
+            clark.speed *
+            (delta / 16.67);
+
+        const moveY =
+            -Math.sin(angle) *
+            clark.speed *
+            (delta / 16.67);
+
+
+        const newX =
+            clark.x + moveX;
+
+        const newY =
+            clark.y + moveY;
+
+
+        if(
+            !collidesWithTrees(
+                newX,
+                clark.y,
+                clark.radius
+            )
+        ){
+
+            clark.x =
+                newX;
+
+        }
+
+
+        if(
+            !collidesWithTrees(
+                clark.x,
+                newY,
+                clark.radius
+            )
+        ){
+
+            clark.y =
+                newY;
+
+        }
+
+    }
+
+
+    /* ---------------------------------------------
+       FORCE CLARK TO STAY INSIDE ARENA
+    --------------------------------------------- */
+
+    clark.x =
+        Math.max(
+            arenaBounds.left +
+            clark.radius,
+
+            Math.min(
+                arenaBounds.right -
+                clark.radius,
+
+                clark.x
+            )
+        );
+
+
+    clark.y =
+        Math.max(
+            arenaBounds.top +
+            clark.radius,
+
+            Math.min(
+                arenaBounds.bottom -
+                clark.radius,
+
+                clark.y
+            )
+        );
+
+
+    /* ---------------------------------------------
+       ATTACK TIMERS
+    --------------------------------------------- */
+
+    clark.attackCooldown -=
+        delta;
+
+    clark.patternTimer -=
+        delta;
+
+
+    if(
+        clark.patternTimer <= 0
+    ){
+
+        if(
+            phase2Active
+        ){
+
+            clark.pattern =
+                (
+                    clark.pattern + 1
+                ) % 4;
+
+            clark.patternTimer =
+                1800;
+
+        }
+        else{
+
+            clark.pattern =
+                (
+                    clark.pattern + 1
+                ) % 2;
+
+            clark.patternTimer =
+                2200;
+
+        }
+
+    }
+
+
+    /* ---------------------------------------------
+       ATTACK
+    --------------------------------------------- */
+
+    if(
+        clark.attackCooldown <= 0
+    ){
+
+        if(
+            phase2Active
+        ){
+
+            fireClarkPhase2();
+
+        }
+        else{
+
+            fireClarkPhase1();
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   CLARK PHASE 1 ATTACK
+===================================================== */
+
+function fireClarkPhase1(){
+
+    if(
+        !clark
+    ){
+
+        return;
+
+    }
+
+
+    const angle =
+        angleBetween(
+            clark,
+            player
+        );
+
+
+    /*
+       Pattern 0:
+       Three bullets.
+    */
+
+    if(
+        clark.pattern ===
+        0
+    ){
+
+        for(
+            let i = -1;
+            i <= 1;
+            i++
+        ){
+
+            const spread =
+                i * 0.18;
+
+
+            enemyBullets.push({
+
+                x:clark.x,
+
+                y:clark.y,
+
+                vx:
+                    Math.cos(
+                        angle +
+                        spread
+                    ) * 4.5,
+
+                vy:
+                    Math.sin(
+                        angle +
+                        spread
+                    ) * 4.5,
+
+                radius:8,
+
+                damage:12,
+
+                life:220
+
+            });
+
+        }
+
+    }
+
+
+    /*
+       Pattern 1:
+       Five spread bullets.
+    */
+
+    else{
+
+        for(
+            let i = -2;
+            i <= 2;
+            i++
+        ){
+
+            const spread =
+                i * 0.2;
+
+
+            enemyBullets.push({
+
+                x:clark.x,
+
+                y:clark.y,
+
+                vx:
+                    Math.cos(
+                        angle +
+                        spread
+                    ) * 4,
+
+                vy:
+                    Math.sin(
+                        angle +
+                        spread
+                    ) * 4,
+
+                radius:7,
+
+                damage:10,
+
+                life:240
+
+            });
+
+        }
+
+    }
+
+
+    clark.attackCooldown =
+        1100;
+
+}
+
+
+/* =====================================================
+   CLARK PHASE 2 ATTACKS
+===================================================== */
+
+function fireClarkPhase2(){
+
+    if(
+        !clark
+    ){
+
+        return;
+
+    }
+
+
+    const angle =
+        angleBetween(
+            clark,
+            player
+        );
+
+
+    /*
+       PATTERN 0
+       Fast aimed burst.
+    */
+
+    if(
+        clark.pattern ===
+        0
+    ){
+
+        for(
+            let i = 0;
+            i < 3;
+            i++
+        ){
+
+            setTimeout(
+                () => {
+
+                    if(
+                        !clark ||
+                        clark.dead
+                    ){
+
+                        return;
+
+                    }
+
+
+                    const currentAngle =
+                        angleBetween(
+                            clark,
+                            player
+                        );
+
+
+                    enemyBullets.push({
+
+                        x:
+                            clark.x,
+
+                        y:
+                            clark.y,
+
+                        vx:
+                            Math.cos(
+                                currentAngle
+                            ) * 6,
+
+                        vy:
+                            Math.sin(
+                                currentAngle
+                            ) * 6,
+
+                        radius:
+                            8,
+
+                        damage:
+                            14,
+
+                        life:
+                            180
+
+                    });
+
+                },
+
+                i * 180
+
+            );
+
+        }
+
+    }
+
+
+    /*
+       PATTERN 1
+       Circular attack.
+    */
+
+    else if(
+        clark.pattern ===
+        1
+    ){
+
+        const bulletsCount =
+            12;
+
+
+        for(
+            let i = 0;
+            i < bulletsCount;
+            i++
+        ){
+
+            const a =
+                (
+                    Math.PI *
+                    2 *
+                    i
+                ) /
+                bulletsCount;
+
+
+            enemyBullets.push({
+
+                x:
+                    clark.x,
+
+                y:
+                    clark.y,
+
+                vx:
+                    Math.cos(a) *
+                    3.2,
+
+                vy:
+                    Math.sin(a) *
+                    3.2,
+
+                radius:
+                    7,
+
+                damage:
+                    10,
+
+                life:
+                    230
+
+            });
+
+        }
+
+    }
+
+
+    /*
+       PATTERN 2
+       Wide fan.
+    */
+
+    else if(
+        clark.pattern ===
+        2
+    ){
+
+        for(
+            let i = -4;
+            i <= 4;
+            i++
+        ){
+
+            const spread =
+                i * 0.16;
+
+
+            enemyBullets.push({
+
+                x:
+                    clark.x,
+
+                y:
+                    clark.y,
+
+                vx:
+                    Math.cos(
+                        angle +
+                        spread
+                    ) * 4.5,
+
+                vy:
+                    Math.sin(
+                        angle +
+                        spread
+                    ) * 4.5,
+
+                radius:
+                    7,
+
+                damage:
+                    11,
+
+                life:
+                    220
+
+            });
+
+        }
+
+    }
+
+
+    /*
+       PATTERN 3
+       Two diagonal waves.
+    */
+
+    else{
+
+        const offsets = [
+
+            -0.55,
+            -0.3,
+            0,
+            0.3,
+            0.55
+
+        ];
+
+
+        for(
+            const offset of offsets
+        ){
+
+            enemyBullets.push({
+
+                x:
+                    clark.x,
+
+                y:
+                    clark.y,
+
+                vx:
+                    Math.cos(
+                        angle +
+                        offset
+                    ) * 5,
+
+                vy:
+                    Math.sin(
+                        angle +
+                        offset
+                    ) * 5,
+
+                radius:
+                    8,
+
+                damage:
+                    12,
+
+                life:
+                    200
+
+            });
+
+        }
+
+    }
+
+
+    clark.attackCooldown =
+        phase2Active
+            ? 650
+            : 1100;
+
+}
+
+
+/* =====================================================
+   UPDATE ENEMY BULLETS
+===================================================== */
+
+function updateEnemyBullets(
+    delta
+){
+
+    for(
+        let i =
+            enemyBullets.length -
+            1;
+
+        i >= 0;
+
+        i--
+    ){
+
+        const bullet =
+            enemyBullets[i];
+
+
+        bullet.x +=
+            bullet.vx *
+            (delta / 16.67);
+
+
+        bullet.y +=
+            bullet.vy *
+            (delta / 16.67);
+
+
+        bullet.life -=
+            delta / 16.67;
+
+
+        /*
+           Trees block boss bullets.
+        */
+
+        if(
+            bulletHitsTree(
+                bullet
+            )
+        ){
+
+            createParticles(
+                bullet.x,
+                bullet.y,
+                3
+            );
+
+
+            enemyBullets.splice(
+                i,
+                1
+            );
+
+            continue;
+
+        }
+
+
+        /*
+           Hit Sam.
+        */
+
+        if(
+            distanceBetween(
+                bullet,
+                player
+            ) <
+            bullet.radius +
+            player.radius
+        ){
+
+            damagePlayer(
+                bullet.damage
+            );
+
+
+            enemyBullets.splice(
+                i,
+                1
+            );
+
+            continue;
+
+        }
+
+
+        /*
+           Remove old bullets.
+        */
+
+        if(
+            bullet.life <=
+            0
+        ){
+
+            enemyBullets.splice(
+                i,
+                1
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   KILL CLARK
+===================================================== */
+
+function killClark(){
+
+    if(
+        !clark ||
+        clark.dead
+    ){
+
+        return;
+
+    }
+
+
+    clark.hp =
+        0;
+
+
+    clark.dead =
+        true;
+
+
+    enemyBullets =
+        [];
+
+
+    bullets =
+        [];
+
+
+    createParticles(
+        clark.x,
+        clark.y,
+        35
+    );
+
+
+    /*
+       Phase 1 defeated:
+       start Phase 2 sequence.
+    */
+
+    if(
+        !phase2Active
+    ){
+
+        gamePaused =
+            true;
+
+
+        setTimeout(
+            () => {
+
+                startDialogue(
+                    dialogues.phase2Start,
+                    () => {
+
+                        playPhase2Cutscene();
+
+                    }
+                );
+
+            },
+            700
+        );
+
+    }
+
+    else{
+
+        /*
+           Phase 2 defeated.
+           Start ending dialogue.
+        */
+
+        gamePaused =
+            true;
+
+
+        setTimeout(
+            () => {
+
+                startDialogue(
+                    dialogues.ending,
+                    () => {
+
+                        showEnding();
+
+                    }
+                );
+
+            },
+            700
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   START CLARK PHASE 2
+===================================================== */
+
+function startClarkPhase2(){
+
+    if(
+        !clark
+    ){
+
+        return;
+
+    }
+
+
+    /*
+       Reset Clark's HP for Phase 2.
+    */
+
+    clark.dead =
+        false;
+
+    clark.hp =
+        900;
+
+    clark.maxHp =
+        900;
+
+    clark.pattern =
+        0;
+
+    clark.patternTimer =
+        0;
+
+    clark.attackCooldown =
+        800;
+
+
+    arenaText.textContent =
+        "CLARK — PHASE 2";
+
+
+    gamePaused =
+        false;
+
+}
+
+
+/* =====================================================
+   SHOW ENDING
+===================================================== */
+
+function showEnding(){
+
+    gameFinished =
+        true;
+
+    gamePaused =
+        true;
+
+
+    /*
+       Stop all previous music.
+    */
+
+    stopAllMusic();
+
+
+    /*
+       Ending screen.
+    */
+
+    ending.style.display =
+        "flex";
+
+
+    /*
+       Brent's music begins
+       when the ending appears.
+    */
+
+    playMusic(
+        brentMusic
+    );
+
+}
+
+
+/* =====================================================
+   PLAYER DEATH
+===================================================== */
+
+function killPlayer(){
+
+    if(
+        playerDead
+    ){
+
+        return;
+
+    }
+
+
+    playerDead =
+        true;
+
+    gamePaused =
+        true;
+
+
+    shooting =
+        false;
+
+
+    joystickState.x =
+        0;
+
+    joystickState.y =
+        0;
+
+    joystickState.power =
+        0;
+
+
+    joystickKnob.style.transform =
+        "translate(-50%, -50%)";
+
+
+    stopAllMusic();
+
+
+    setTimeout(
+        () => {
+
+            gameOver.style.display =
+                "flex";
+
+        },
+        500
+    );
+
+}
+
+
+/* =====================================================
+   END OF PART 4
+===================================================== */
+    
+    /* =====================================================
+   DRAW ARENA
+===================================================== */
+
+function drawArena(){
+
+    /*
+       Grass background
+    */
+
+    ctx.fillStyle =
+        "#315b35";
+
+    ctx.fillRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    /*
+       Arena floor
+    */
+
+    ctx.fillStyle =
+        "#3d713f";
+
+    ctx.fillRect(
+
+        arenaBounds.left -
+        camera.x,
+
+        arenaBounds.top -
+        camera.y,
+
+        arenaBounds.right -
+        arenaBounds.left,
+
+        arenaBounds.bottom -
+        arenaBounds.top
+
+    );
+
+
+    /*
+       Arena border
+    */
+
+    ctx.strokeStyle =
+        "#18291a";
+
+    ctx.lineWidth =
+        12;
+
+    ctx.strokeRect(
+
+        arenaBounds.left -
+        camera.x,
+
+        arenaBounds.top -
+        camera.y,
+
+        arenaBounds.right -
+        arenaBounds.left,
+
+        arenaBounds.bottom -
+        arenaBounds.top
+
+    );
+
+}
+
+
+/* =====================================================
+   DRAW TREES
+===================================================== */
+
+function drawTrees(){
+
+    for(
+        const tree of trees
+    ){
+
+        const x =
+            tree.x -
+            camera.x;
+
+        const y =
+            tree.y -
+            camera.y;
+
+
+        /*
+           Trunk
+        */
+
+        ctx.fillStyle =
+            "#70452a";
+
+        ctx.fillRect(
+
+            x +
+            tree.size * .36,
+
+            y +
+            tree.size * .48,
+
+            tree.size * .28,
+
+            tree.size * .52
+
+        );
+
+
+        /*
+           Leaves
+        */
+
+        ctx.fillStyle =
+            "#183f22";
+
+        ctx.beginPath();
+
+        ctx.arc(
+
+            x +
+            tree.size * .5,
+
+            y +
+            tree.size * .38,
+
+            tree.size * .45,
+
+            0,
+
+            Math.PI * 2
+
+        );
+
+        ctx.fill();
+
+
+        ctx.fillStyle =
+            "#286332";
+
+        ctx.beginPath();
+
+        ctx.arc(
+
+            x +
+            tree.size * .35,
+
+            y +
+            tree.size * .35,
+
+            tree.size * .25,
+
+            0,
+
+            Math.PI * 2
+
+        );
+
+        ctx.fill();
+
+
+        ctx.beginPath();
+
+        ctx.arc(
+
+            x +
+            tree.size * .65,
+
+            y +
+            tree.size * .30,
+
+            tree.size * .27,
+
+            0,
+
+            Math.PI * 2
+
+        );
+
+        ctx.fill();
+
+    }
+
+}
+
+
+/* =====================================================
+   DRAW PLAYER
+===================================================== */
+
+function drawPlayer(){
+
+    const x =
+        player.x -
+        camera.x;
+
+    const y =
+        player.y -
+        camera.y;
+
+
+    /*
+       If Sam's PNG exists,
+       use the drawing.
+    */
+
+    if(
+        images.sam.complete &&
+        images.sam.naturalWidth > 0
+    ){
+
+        ctx.save();
+
+
+        ctx.translate(
+            x,
+            y
+        );
+
+
+        /*
+           Flip according to
+           aiming direction.
+        */
+
+        if(
+            Math.cos(
+                player.facing
+            ) < 0
+        ){
+
+            ctx.scale(
+                -1,
+                1
+            );
+
+        }
+
+
+        const size =
+            70;
+
+
+        ctx.drawImage(
+
+            images.sam,
+
+            -size / 2,
+
+            -size / 2,
+
+            size,
+
+            size
+
+        );
+
+
+        ctx.restore();
+
+    }
+
+    else{
+
+        /*
+           Temporary Sam
+           while you haven't
+           added sam.png.
+        */
+
+        ctx.fillStyle =
+            "#4d9cff";
+
+        ctx.beginPath();
+
+        ctx.arc(
+            x,
+            y,
+            player.radius,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fill();
+
+    }
+
+
+    /*
+       Gun direction.
+    */
+
+    ctx.strokeStyle =
+        "#222";
+
+    ctx.lineWidth =
+        7;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        x,
+        y
+    );
+
+    ctx.lineTo(
+
+        x +
+        Math.cos(
+            player.facing
+        ) * 35,
+
+        y +
+        Math.sin(
+            player.facing
+        ) * 35
+
+    );
+
+    ctx.stroke();
+
+
+    /*
+       Invincibility blink.
+    */
+
+    if(
+        player.invincible >
+        0
+    ){
+
+        ctx.strokeStyle =
+            "white";
+
+        ctx.lineWidth =
+            3;
+
+        ctx.beginPath();
+
+        ctx.arc(
+
+            x,
+
+            y,
+
+            player.radius +
+            6,
+
+            0,
+
+            Math.PI * 2
+
+        );
+
+        ctx.stroke();
+
+    }
+
+}
+
+
+/* =====================================================
+   DRAW NORMAL ENEMIES
+===================================================== */
+
+function drawEnemies(){
+
+    for(
+        const enemy of enemies
+    ){
+
+        if(
+            enemy.dead
+        ){
+
+            continue;
+
+        }
+
+
+        const x =
+            enemy.x -
+            camera.x;
+
+        const y =
+            enemy.y -
+            camera.y;
+
+
+        let image =
+            null;
+
+
+        if(
+            enemy.type ===
+            "Elmer"
+        ){
+
+            image =
+                images.elmer;
+
+        }
+
+        else if(
+            enemy.type ===
+            "Jobel"
+        ){
+
+            image =
+                images.jobel;
+
+        }
+
+
+        /*
+           Character drawing.
+        */
+
+        if(
+            image &&
+            image.complete &&
+            image.naturalWidth > 0
+        ){
+
+            const size =
+                enemy.type ===
+                "Jobel"
+                    ? 75
+                    : 65;
+
+
+            ctx.drawImage(
+
+                image,
+
+                x -
+                size / 2,
+
+                y -
+                size / 2,
+
+                size,
+
+                size
+
+            );
+
+        }
+
+        else{
+
+            /*
+               Temporary enemy.
+            */
+
+            ctx.fillStyle =
+                enemy.type ===
+                "Jobel"
+                    ? "#b34dff"
+                    : "#d34d4d";
+
+
+            ctx.beginPath();
+
+            ctx.arc(
+
+                x,
+
+                y,
+
+                enemy.radius,
+
+                0,
+
+                Math.PI * 2
+
+            );
+
+            ctx.fill();
+
+        }
+
+
+        /*
+           HP bar
+        */
+
+        drawHealthBar(
+
+            x,
+
+            y -
+            enemy.radius -
+            10,
+
+            50,
+
+            6,
+
+            enemy.hp /
+            enemy.maxHp
+
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   DRAW CLARK
+===================================================== */
+
+function drawClark(){
+
+    if(
+        !clark ||
+        clark.dead
+    ){
+
+        return;
+
+    }
+
+
+    const x =
+        clark.x -
+        camera.x;
+
+    const y =
+        clark.y -
+        camera.y;
+
+
+    /*
+       IMPORTANT:
+
+       Phase 1 uses clark.png.
+       Phase 2 uses phase2.png.
+    */
+
+    const image =
+        phase2Active
+            ? images.phase2
+            : images.clark;
+
+
+    if(
+        image.complete &&
+        image.naturalWidth > 0
+    ){
+
+        const size =
+            phase2Active
+                ? 120
+                : 100;
+
+
+        ctx.save();
+
+
+        ctx.translate(
+            x,
+            y
+        );
+
+
+        if(
+            Math.cos(
+                angleBetween(
+                    clark,
+                    player
+                )
+            ) < 0
+        ){
+
+            ctx.scale(
+                -1,
+                1
+            );
+
+        }
+
+
+        ctx.drawImage(
+
+            image,
+
+            -size / 2,
+
+            -size / 2,
+
+            size,
+
+            size
+
+        );
+
+
+        ctx.restore();
+
+    }
+
+    else{
+
+        /*
+           Temporary Clark.
+        */
+
+        ctx.fillStyle =
+            phase2Active
+                ? "#9d3cff"
+                : "#ff9f3c";
+
+
+        ctx.beginPath();
+
+        ctx.arc(
+
+            x,
+
+            y,
+
+            clark.radius,
+
+            0,
+
+            Math.PI * 2
+
+        );
+
+        ctx.fill();
+
+    }
+
+
+    /*
+       Boss HP bar
+    */
+
+    drawHealthBar(
+
+        x,
+
+        y -
+        clark.radius -
+        20,
+
+        100,
+
+        9,
+
+        clark.hp /
+        clark.maxHp
+
+    );
+
+}
+
+
+/* =====================================================
+   HEALTH BAR DRAWING
+===================================================== */
+
+function drawHealthBar(
+    x,
+    y,
+    width,
+    height,
+    percent
+){
+
+    percent =
+        Math.max(
+            0,
+            Math.min(
+                1,
+                percent
+            )
+        );
+
+
+    ctx.fillStyle =
+        "rgba(0,0,0,.7)";
+
+
+    ctx.fillRect(
+
+        x -
+        width / 2,
+
+        y,
+
+        width,
+
+        height
+
+    );
+
+
+    ctx.fillStyle =
+        "#e55353";
+
+
+    ctx.fillRect(
+
+        x -
+        width / 2,
+
+        y,
+
+        width *
+        percent,
+
+        height
+
+    );
+
+}
+
+
+/* =====================================================
+   DRAW PLAYER BULLETS
+===================================================== */
+
+function drawBullets(){
+
+    for(
+        const bullet of bullets
+    ){
+
+        const x =
+            bullet.x -
+            camera.x;
+
+        const y =
+            bullet.y -
+            camera.y;
+
+
+        ctx.fillStyle =
+            "#ffe28a";
+
+
+        ctx.beginPath();
+
+        ctx.arc(
+
+            x,
+
+            y,
+
+            bullet.radius,
+
+            0,
+
+            Math.PI * 2
+
+        );
+
+        ctx.fill();
+
+    }
+
+}
+
+
+/* =====================================================
+   DRAW ENEMY BULLETS
+===================================================== */
+
+function drawEnemyBullets(){
+
+    for(
+        const bullet of enemyBullets
+    ){
+
+        const x =
+            bullet.x -
+            camera.x;
+
+        const y =
+            bullet.y -
+            camera.y;
+
+
+        ctx.fillStyle =
+            phase2Active
+                ? "#d27cff"
+                : "#ff6464";
+
+
+        ctx.beginPath();
+
+        ctx.arc(
+
+            x,
+
+            y,
+
+            bullet.radius,
+
+            0,
+
+            Math.PI * 2
+
+        );
+
+        ctx.fill();
+
+    }
+
+}
+
+
+/* =====================================================
+   DRAW PARTICLES
+===================================================== */
+
+function drawParticles(){
+
+    for(
+        const particle of particles
+    ){
+
+        const x =
+            particle.x -
+            camera.x;
+
+        const y =
+            particle.y -
+            camera.y;
+
+
+        ctx.globalAlpha =
+            Math.max(
+                0,
+                particle.life /
+                60
+            );
+
+
+        ctx.fillStyle =
+            "#ffd36b";
+
+
+        ctx.beginPath();
+
+        ctx.arc(
+
+            x,
+
+            y,
+
+            particle.size,
+
+            0,
+
+            Math.PI * 2
+
+        );
+
+        ctx.fill();
+
+    }
+
+
+    ctx.globalAlpha =
+        1;
+
+}
+
+
+/* =====================================================
+   DRAW ARENA GATE
+===================================================== */
+
+function drawGate(){
+
+    /*
+       The entrance closes after
+       Sam enters the arena.
+
+       Only visual here because
+       the arena boundaries already
+       prevent enemies from leaving.
+    */
+
+    const gateX =
+        canvas.width / 2;
+
+
+    const gateY =
+        arenaBounds.bottom -
+        camera.y;
+
+
+    ctx.fillStyle =
+        "rgba(20,20,20,.85)";
+
+
+    ctx.fillRect(
+
+        gateX -
+        70,
+
+        gateY -
+        8,
+
+        140,
+
+        16
+
+    );
+
+}
+
+
+/* =====================================================
+   UPDATE CAMERA
+===================================================== */
+
+function updateCamera(){
+
+    const targetX =
+        player.x -
+        canvas.width / 2;
+
+
+    const targetY =
+        player.y -
+        canvas.height / 2;
+
+
+    camera.x +=
+        (
+            targetX -
+            camera.x
+        ) *
+        camera.smooth;
+
+
+    camera.y +=
+        (
+            targetY -
+            camera.y
+        ) *
+        camera.smooth;
+
+
+    /*
+       Keep camera inside arena.
+    */
+
+    camera.x =
+        Math.max(
+            0,
+
+            Math.min(
+                world.width -
+                canvas.width,
+
+                camera.x
+            )
+        );
+
+
+    camera.y =
+        Math.max(
+            0,
+
+            Math.min(
+                world.height -
+                canvas.height,
+
+                camera.y
+            )
+        );
+
+}
+
+
+/* =====================================================
+   UPDATE PLAYER INVINCIBILITY
+===================================================== */
+
+function updatePlayerTimers(
+    delta
+){
+
+    if(
+        player.invincible >
+        0
+    ){
+
+        player.invincible -=
+            delta;
+
+
+        if(
+            player.invincible <
+            0
+        ){
+
+            player.invincible =
+                0;
+
+        }
+
+    }
+
+
+    if(
+        weapon.fireCooldown >
+        0
+    ){
+
+        weapon.fireCooldown -=
+            delta;
+
+
+        if(
+            weapon.fireCooldown <
+            0
+        ){
+
+            weapon.fireCooldown =
+                0;
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   MAIN UPDATE
+===================================================== */
+
+function update(
+    delta
+){
+
+    if(
+        !gameStarted
+    ){
+
+        return;
+
+    }
+
+
+    updatePlayerTimers(
+        delta
+    );
+
+
+    updateReload(
+        delta
+    );
+
+
+    if(
+        !gamePaused
+    ){
+
+        movePlayer(
+            delta
+        );
+
+
+        updateEnemies(
+            delta
+        );
+
+
+        updateClark(
+            delta
+        );
+
+
+        updateBullets(
+            delta
+        );
+
+
+        updateEnemyBullets(
+            delta
+        );
+
+
+        updateParticles(
+            delta
+        );
+
+
+        if(
+            shooting ||
+            keyboard.shoot
+        ){
+
+            tryShoot();
+
+        }
+
+
+        if(
+            currentArena <= 2
+        ){
+
+            checkArenaEnemies();
+
+        }
+
+    }
+    else{
+
+        /*
+           Particles can still finish
+           while dialogue is showing.
+        */
+
+        updateParticles(
+            delta
+        );
+
+    }
+
+
+    updateCamera();
+
+}
+
+
+/* =====================================================
+   MAIN DRAW
+===================================================== */
+
+function draw(){
+
+    ctx.clearRect(
+
+        0,
+
+        0,
+
+        canvas.width,
+
+        canvas.height
+
+    );
+
+
+    drawArena();
+
+    drawGate();
+
+    drawTrees();
+
+    drawBullets();
+
+    drawEnemyBullets();
+
+    drawEnemies();
+
+    drawClark();
+
+    drawPlayer();
+
+    drawParticles();
+
+
+    /*
+       Boss HP display
+    */
+
+    if(
+        clark &&
+        !clark.dead
+    ){
+
+        /*
+           Nothing extra needed here.
+           The HP bar is above Clark.
+        */
+
+    }
+
+}
+
+
+/* =====================================================
+   GAME LOOP
+===================================================== */
+
+let lastTime =
+    performance.now();
+
+
+function gameLoop(
+    currentTime
+){
+
+    const delta =
+        Math.min(
+            currentTime -
+            lastTime,
+
+            50
+        );
+
+
+    lastTime =
+        currentTime;
+
+
+    update(
+        delta
+    );
+
+
+    draw();
+
+
+    requestAnimationFrame(
+        gameLoop
+    );
+
+}
+
+
+requestAnimationFrame(
+    gameLoop
+);
+
+
+/* =====================================================
+   INITIAL SETUP
+===================================================== */
+
+generateTrees();
+
+updateHealthUI();
+
+updateAmmoUI();
+
+
+/* =====================================================
+   PREVENT MOBILE LONG PRESS / CONTEXT MENU
+===================================================== */
+
+document.addEventListener(
+    "contextmenu",
+    event => {
+
+        event.preventDefault();
+
+    }
+);
+
+
+/* =====================================================
+   PREVENT PAGE SCROLLING
+===================================================== */
+
+document.addEventListener(
+    "touchmove",
+    event => {
+
+        event.preventDefault();
+
+    },
+    {
+        passive:false
+    }
+);
+
+
+/* =====================================================
+   FINAL STARTUP
+===================================================== */
+
+console.log(
+    "Tigbason Tikaron loaded."
+);
+
+
+/* =====================================================
+   CLOSE SCRIPT
+===================================================== */
+
+</script>
+
+
+</body>
+
+</html>
